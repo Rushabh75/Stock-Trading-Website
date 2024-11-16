@@ -1,4 +1,4 @@
-
+https://github.com/user-attachments/assets/924dd163-2e08-41e3-89e8-0bcb3a0e3d84
 # **Stock Search Application**
 
 **Stock Search** is a modern web application designed to provide users with an intuitive and responsive platform for retrieving and displaying financial data. This application allows users to search for stock information, view detailed insights, manage a watchlist and portfolio, and analyze market trends using real-time and historical data. By leveraging advanced APIs and a user-friendly interface, **Stock Search** enhances stock market analysis and decision-making.
