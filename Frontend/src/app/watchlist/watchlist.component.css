@@ -1,0 +1,114 @@
+/* watchlist.component.css */
+.watchlist-container {
+    width: 100%;
+    margin-top: 20px;
+  }
+  .watchlist-card{
+    text-align: -webkit-center;
+  }
+  .watchlist-title {
+    text-align: left;
+    font-size: 24px;
+    margin-bottom: 20px;
+    width: 70%;
+  }
+  
+  .watchlist-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-inline: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 70%;
+    padding-top: 0px;
+  }
+  
+  .watchlist-details {
+    flex-grow: 1;
+  }
+  
+  .watchlist-symbol-name {
+    margin-bottom: 5px;
+    text-align: left;
+  }
+  
+  .watchlist-symbol {
+    font-weight: 400;
+    font-size: 1.5rem;
+  }
+  .close-button{
+    width: 5px;
+    height: 100px;
+  }
+  
+  .watchlist-pricing {
+    display: block;
+    align-items: center;
+    width: 50%;
+  }
+  
+  .watchlist-price {
+    font-weight: 400;
+    font-size: 1.5rem;
+    /* margin-right: 5px; */
+    text-align: left;
+    margin-bottom: 0px;
+    height: 14px;
+  }
+  
+  .watchlist-change {
+    display: flex;
+    align-items: center;
+  }
+  
+  .positive {
+    color: green;
+  }
+  
+  .negative {
+    color: red;
+  }
+  
+  .arrow-up, .arrow-down {
+    margin-right: 5px;
+    font-size: 13px;
+  }
+  
+  .remove-button {
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .remove-button:hover {
+    color: #666;
+  }
+  .alert-warning {
+    background-color: #fff3cd;
+    border-color: #ffe083;
+    color: black;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    text-align: center;
+    width: 70%; 
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .spinner-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; 
+  }
+  
+  .mat-spinner {
+    width: 30px !important; 
+    height: 30px !important;
+  }
+  

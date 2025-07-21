@@ -1,0 +1,142 @@
+.search-bar-container .dropdown-container {
+  position: relative;
+}
+
+.search-bar-container .dropdown-spinner {
+  position: absolute;
+  top: 5px; 
+  left: 5px; 
+  z-index: 100; 
+}
+.alert-container {
+  width: 70%;
+  margin: 0 auto; 
+  text-align: center;
+  position: relative;
+  top: 20px; 
+  z-index: 1050; 
+}
+.close {
+  position: absolute;
+  top: 10px;
+  left: 90%;
+  font-size: 1.4rem;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  margin-bottom: 0 !important;
+  color: rgba(131, 111, 113, 255);
+}
+.alert {
+  display: block;
+  margin-bottom: 20px;
+}
+.adjust-padding {
+    padding-top: 150px; 
+    transition: top 1s ease;
+  }  
+  
+  .search-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 20px; 
+  }
+  
+ 
+  .stock-search-title {
+    margin-bottom: 20px; 
+    font-size: 1.5rem; 
+    color: black; 
+  }
+.search-bar-container {
+  position: relative;
+  width: calc(100% - 40px); 
+  max-width: 500px; 
+  margin: 0 20px; 
+  box-sizing: border-box;
+}
+.mat-form-field-override {
+  width: 100%;
+  max-width: 500px;
+}
+.mat-autocomplete.show-panel .mat-autocomplete-panel {
+  display: block;
+}
+.autocomplete-spinner {
+  position: absolute;
+  top: 0; 
+  left: 0; 
+  z-index: 100;
+}
+::ng-deep .mat-mdc-autocomplete-panel {
+  width: 80% !important;
+  max-height: 256px;
+  visibility: visible;
+  transform-origin: center top;
+  overflow: auto;
+  padding: 8px 0;
+  box-sizing: border-box;
+  position: static;
+  border-radius: var(--mat-autocomplete-container-shape);
+  box-shadow: var(--mat-autocomplete-container-elevation-shadow);
+  background-color: var(--mat-autocomplete-background-color);
+  margin-top: -2%;
+  margin-left: 3%;
+}
+.mat-mdc-form-field-has-icon-suffix .mat-mdc-text-field-wrapper {
+  padding-right: 0;
+  border: 3px solid rgba(35, 36, 170, 255) !important;
+  border-radius: 20px;
+}
+.mat-input-element {
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+ 
+}
+
+.search-bar-container .form-control {
+  padding-right: 90px;
+  border-radius: 20px;
+  border: 3px solid rgba(35, 36, 170, 255);
+  box-shadow: none; 
+}
+
+
+.search-bar-container .btn-search {
+  position: absolute;
+  right: 45px; 
+  top: 0;
+  bottom: 0;
+  border: none;
+  background: none;
+  color: rgba(35, 36, 170, 255); 
+}
+
+
+.search-bar-container .btn-clear {
+  position: absolute;
+  right: 10px;
+  top: 0;
+  bottom: 0;
+  border: none;
+  background: none;
+  color: rgba(35, 36, 170, 255);
+}
+
+
+.bi {
+  vertical-align: -.125em; 
+  pointer-events: none; 
+}
+.bi-search, .bi-x-lg {
+  font-size: 1em; 
+}

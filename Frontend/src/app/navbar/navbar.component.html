@@ -1,0 +1,27 @@
+<!-- Include Bootstrap JS (with Popper) at the end of your document, just before the closing </body> tag -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+  <div class="container-fluid justify-content-between">
+    <a class="navbar-brand" href="#">Stock Search</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link initial-active" [routerLink]="getSearchRoute()" routerLinkActive="active-link" (click)="closeNavbar()" [routerLinkActiveOptions]="{exact: true}">Search</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/watchlist" routerLinkActive="active-link" (click)="closeNavbar()">Watchlist</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/portfolio" routerLinkActive="active-link" (click)="closeNavbar()">Portfolio</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+

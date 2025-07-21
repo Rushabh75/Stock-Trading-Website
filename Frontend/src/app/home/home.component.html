@@ -1,0 +1,42 @@
+<!-- <div class="container mt-3">
+    <h1>Stock Search</h1>
+    <input type="text" class="form-control" placeholder="Enter stock ticker symbol">
+    <button class="btn btn-primary mt-2">Search</button>
+    <button class="btn btn-secondary mt-2">Clear</button>
+  </div> -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+<body>
+  <!-- <div [class.adjust-padding]="!isNavbarCollapsed"></div> -->
+  <div class="search-section">
+    <h1 class="stock-search-title">STOCK SEARCH</h1>
+    <div class="search-bar-container">
+      <input matInput class="form-control" [matAutocomplete]="auto" placeholder="Enter stock ticker symbol" [formControl]="tickerControl" (keyup.enter)="search()">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onOptionSelected($event)">
+        <mat-option *ngIf="isLoading">
+          <mat-spinner [diameter]="30"></mat-spinner>
+        </mat-option>
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          <span *ngIf="!isLoading">{{ option.displaySymbol }} | {{ option.description }}</span>
+        </mat-option>
+      </mat-autocomplete>
+      <button class="btn btn-search" (click)="search()">
+        <i class="bi bi-search"></i>
+      </button>
+      <button class="btn btn-clear" (click)="clear()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    <!-- <mat-spinner *ngIf="isLoading" diameter="30"></mat-spinner> -->
+  </div>
+  <div class="alert-container">
+    <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+      {{ errorMessage }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="clearErrorMessage()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+</body>
+<!-- <app-search></app-search> -->
+<router-outlet></router-outlet>

@@ -1,0 +1,270 @@
+<app-home></app-home>
+
+<!-- src/app/search/search.component.html -->
+<!-- <app-home></app-home> Your search bar component -->
+<!-- <router-outlet></router-outlet> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
+<script src="https://code.highcharts.com/stock/modules/drag-panes.js"></script>
+<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/stock/indicators/indicators.js"></script>
+<script src="https://code.highcharts.com/stock/indicators/volume-by-price.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>  
+<script src="path-to-bootstrap/bootstrap.bundle.min.js"></script>
+<meta charset="UTF-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <link href="path-to-bootstrap/bootstrap.min.css" rel="stylesheet"> -->
+<!-- <div *ngIf="errorMessage" class="alert alert-danger">
+  {{ errorMessage }}
+</div> -->
+<body>
+<div *ngIf="successMessage" [ngClass]="'alert alert-success'" style="margin-inline: 10%; margin-top: 3%; text-align: center;" role="alert">
+  {{ successMessage }}
+</div>
+<div *ngIf="failedMessage" [ngClass]="'alert alert-fail'" style="margin-inline: 10%; margin-top: 3%; text-align: center; background-color: rgba(246,215,217,255); color: rgba(124,71,78,255);" role="alert">
+  {{ failedMessage }}
+</div>
+
+<!-- <div *ngIf="!errorMessage"> -->
+  <div *ngIf="isloading" style="text-align: center;">
+    <mat-spinner [diameter]="50" style="margin-left: 45%; margin-top: 2%;"></mat-spinner>
+  </div>
+    
+  <div class="container stock-search ">
+    <div *ngIf="!isloading && !errorMessage">
+      <div *ngIf="stockProfile; else loading" class="stock-info d-flex flex-nowrap">
+        <!-- Left Section for Ticker, Company Name, Exchange, and Trading Actions -->
+        <div class="col-5 col-md-2 mb-3" style="text-align: center;">
+            <h2 class="ticker-symbol">{{ stockProfile.ticker }}
+                <span class="star" [ngClass]="starClass" (click)="toggleWatchlist(stockProfile.ticker)">&#9733;</span>
+            </h2>
+            <p class="company-name">{{ stockProfile.name }}</p>
+            <p class="exchange">{{ stockProfile.exchange }}</p>
+            <div class="trading-actions" style="text-align: center;">
+                <button class="buy-button" data-target="buyModal" (click)="openBuyModal(stockProfile.ticker)">Buy</button>
+                <button class="sell-button" data-target="sellModal" *ngIf="isTickerInPortfolio(stockProfile.ticker)" (click)="openSellModal(stockProfile.ticker)">Sell</button>
+            </div>
+            <div class="modal fade" id="buyModal" tabindex="-1" role="dialog" aria-labelledby="buyModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="buyModalLabel">{{ stockProfile.ticker || 'Buy Stock' }}</h5>
+                    <button type="button"  class="close" data-bs-dismiss="modal" aria-label="Close" (click)="closeBuyModal()">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body" id="buying">
+                    <p>Current Price: {{ currentPrice | currency }}</p>
+                    <p>Money in Wallet: {{ walletBalance | currency }}</p>
+                    <p style="display: flex; align-items: center;">Quantity: <input type="number" [(ngModel)]="quantityToBuy" class="form-control" placeholder="Enter quantity" (input)="calculateTotalPrice()"/></p>
+                    <p *ngIf="totalPrice > walletBalance" class="text-danger">Not enough money in wallet!</p>
+                  </div>
+                  <div class="modal-footer">
+                    <p>Total: {{ totalPrice | currency }}</p>
+                    <button type="button" style="background-color: green;" class="btn btn-primary" [disabled]="totalPrice > walletBalance || quantityToBuy <= 0" (click)="onBuyConfirm()">Buy</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal fade" id="sellModal" tabindex="-1" role="dialog" aria-labelledby="sellModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="sellModalLabel">{{ tickerToSell || 'Sell Stock' }}</h5>
+                    <button type="button"  class="close" data-bs-dismiss="modal" aria-label="Close" (click)="closeSellModal()">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body" id="buying">
+                    <p>Current Price: {{ currentPrice | currency }}</p>
+                    <p>Owned Quantity: {{ ownedQuantity }}</p>
+                    <p style="display: flex; align-items: center;">Quantity: <input type="number" [(ngModel)]="quantityToSell" class="form-control" placeholder="Enter quantity to sell" (input)="calculateSellTotal()"/></p>
+                    <p *ngIf="quantityToSell > ownedQuantity" class="text-danger">You cannot sell stocks that you don't have!</p>
+                  </div>
+                  <div class="modal-footer">
+                    <p>Total: {{ sellTotal | currency }}</p>
+                    <button type="button" style="background-color: red;" class="btn btn-primary" [disabled]="quantityToSell > ownedQuantity || quantityToSell <= 0" (click)="onSellConfirm()">Sell</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        
+        <!-- Center Section for Logo -->
+        <div class="col-3 col-md-2 mb-3 text-center">
+            <img src="{{ stockProfile.logo }}" alt="{{ stockProfile.name }} logo" class="img-fluid w-50 company-logo">
+        </div>
+      
+        <!-- Right Section for Price Info -->
+        <div class="col-5 col-md-2 mb-3" [ngClass]="getPriceChangeClass(stockQuote?.d ?? 0)" style="text-align: center;">
+            <p class="current-price">{{ stockQuote?.c | number:'1.2-2' }}</p>
+            <p class="price-change">
+                <span *ngIf="getPriceDirection(stockQuote?.d) === 'increase'">&#9650; {{ stockQuote?.d | number:'1.2-2' }} ({{ stockQuote?.dp | number:'1.2-2' }}%)</span>
+                <span *ngIf="getPriceDirection(stockQuote?.d) === 'decrease'">&#9660; {{ stockQuote?.d | number:'1.2-2' }} ({{ stockQuote?.dp | number:'1.2-2' }}%)</span>
+            </p>
+            <p class="timestamp">{{ currentDate | date: 'yyyy-MM-dd HH:mm:ss' }}</p>
+        </div>
+      </div>
+      
+      <!-- </div> -->
+        <ng-template #loading>Loading...</ng-template>
+        <div class="Status" [style.color]="marketStatus.color">
+          {{ marketStatus.message }}
+        </div>
+        <mat-tab-group>
+          <mat-tab label="Summary"> 
+            <div *ngIf="stockQuote; else loading" class="container mt-4">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="container">
+                    <div class="row justify-content-center">
+                      <div class="col-12 col-md-auto">
+                        <div class="card text-center text-md-start">
+                          <div class="card-body">
+                            <p class="card-text"><b>High Price:</b> {{ stockQuote?.h }}</p>
+                            <p class="card-text"><b>Low Price:</b> {{ stockQuote?.l }}</p>
+                            <p class="card-text"><b>Open Price:</b> {{ stockQuote?.o }}</p>
+                            <p class="card-text"><b>Prev. Close:</b> {{ stockQuote?.pc }}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card mt-3">
+                    <div class="card-body1">
+                      <h6 class="card-title">About the company</h6><br>
+                      <p class="card-text"><b>IPO Start Date:</b> {{ stockProfile?.ipo }}</p>
+                      <p class="card-text"><b>Industry:</b> {{ stockProfile?.finnhubIndustry }}</p>
+                      <p class="card-text"><b>Webpage: </b> <a href="{{ stockProfile?.weburl }}" target="_blank">{{ stockProfile?.weburl }}</a></p>
+                      <p class="card-text"><b>Company peers:</b><br> <span *ngFor="let peer of stockPeers; let last = last">
+                        <a [routerLink]="['/search', peer]" (click)="onPeerSelected(peer)">{{ peer }}</a><span *ngIf="!last">, </span>
+                      </span>,</p>
+                    </div>
+                  </div>
+                </div>
+            
+                <div class="col-md-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <highcharts-chart 
+                        [Highcharts]="Highcharts"
+                        [options]="chart4"
+                        style="width: 100%; height: 300px; display: block;">
+                      </highcharts-chart>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="Top News"> 
+            <div class="container mt-4">
+              <div  class="row">
+                <div *ngFor="let newsItem of filteredNews" class="col-12 col-md-6 mb-4" data-toggle="modal" data-target="#newsModal" (click)="selectNewsItem(newsItem)">
+                  <div class="news-card d-flex flex-column flex-md-row">
+                    <!-- Use Bootstrap's col-md-* classes to fix the size on medium and larger screens -->
+                    <div class="col-12 col-md-4 p-0">
+                      <img [src]="newsItem.image" class="news-card-img w-100" [alt]="newsItem.headline" onerror="this.src='assets/placeholder-news.png'">
+                    </div>
+                    <div class="col-md-8">
+                      <div class="news-content">
+                        <h5 class="news-headline">{{ newsItem.headline }}</h5>
+                        <!-- Additional content here -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal fade" id="newsModal" tabindex="-1" role="dialog" aria-labelledby="newsModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-body" id="heading">
+                        <h2 class="modal-title" id="newsModalLabel">{{ selectedNewsItem?.source }}</h2>
+                        <h6>{{ selectedNewsItem?.datetime * 1000 | date:'MMMM d, y' }}</h6>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <h5>{{ selectedNewsItem?.headline }}</h5>
+                        <h6>{{ selectedNewsItem?.summary }}</h6>
+                        <p>For more details click <a href="{{ selectedNewsItem?.url }}" target="_blank">here</a></p>
+                      </div>
+                      <div class="modal-body" id="footing">
+                        <h6>Share</h6>
+                        <button class="fa fa-twitter" (click)="openTwitterShare()"></button>
+                        <button href="#" class="fa fa-facebook" (click)="openFacebookShare()"></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="Charts"> 
+            <highcharts-chart [Highcharts]="Highcharts" [options]="chart1" style="width: 100%; height: 600px; display: block;"></highcharts-chart>
+          </mat-tab>
+          <mat-tab label="Insight">  
+            <div *ngIf="sentimentSums" class="container my-4">
+              <div *ngIf="stockProfile; else loading" class="row mb-4 justify-content-center">
+                  <div class="col-12 col-md-6" style="padding-inline: 0 !important;">
+                      <h5 class="Insider">Insider Sentiments</h5>
+                      <table class="table">
+                          <tbody>
+                              <tr>
+                                  <td><b>{{ stockProfile.name }}</b></td>
+                                  <td><b>MSPR</b></td>
+                                  <td><b>Change</b></td>
+                              </tr>
+                              <tr>
+                                  <td><b>Total</b></td>
+                                  <td>{{ sentimentSums.totalMspr }}</td>
+                                  <td>{{ sentimentSums.totalChange }}</td>
+                              </tr>
+                              <tr>
+                                  <td><b>Positive</b></td>
+                                  <td>{{ sentimentSums.positiveMspr }}</td>
+                                  <td>{{ sentimentSums.positiveChange }}</td>
+                              </tr>
+                              <tr>
+                                  <td><b>Negative</b></td>
+                                  <td>{{ sentimentSums.negativeMspr }}</td>
+                                  <td>{{ sentimentSums.negativeChange }}</td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+              <div class="row">
+                  <!-- First Chart -->
+                  <div class="col-12 col-lg-6 mb-4">
+                      <highcharts-chart 
+                      [Highcharts]="Highcharts"
+                      [options]="chart2"
+                      style="width: 100%; height: 300px; display: block;">
+                      </highcharts-chart>
+                  </div>
+                  <!-- Second Chart -->
+                  <div class="col-12 col-lg-6 mb-4">
+                      <highcharts-chart 
+                      [Highcharts]="Highcharts"
+                      [options]="chart3"
+                      style="width: 100%; height: 300px; display: block;">
+                      </highcharts-chart>
+                  </div>
+              </div>
+          </div>              
+          </mat-tab>
+        </mat-tab-group>
+          <ng-template #loading>
+            <p>Loading...</p>
+          </ng-template>
+      </div>
+    </div>
+  <div class="alert-container">
+    <div *ngIf="!isloading && errorMessage" class="alert alert-danger" role="alert">
+      {{ errorMessage }}
+    </div>
+  </div>
+</body>
+<!-- </div> -->
+  

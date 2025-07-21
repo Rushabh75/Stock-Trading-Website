@@ -1,0 +1,47 @@
+<!-- watchlist.component.html -->
+<!-- <app-home></app-home> -->
+<div class="watchlist-container">
+    
+    <div class="watchlist-card">
+        <h2 class="watchlist-title">My Watchlist</h2>
+        <div *ngIf="loading" style="text-align: center;">
+            <mat-spinner [diameter]="50" style="margin-left: 45%;"></mat-spinner>
+          </div>
+        <ng-template #noWatchlist>
+            <div *ngIf="!loading" class="alert alert-warning" role="alert">
+              Currently you don't have any stock in your watchlist.
+            </div>
+          </ng-template>
+    </div>
+    <div class="watchlist-card" *ngIf="!loading && watchlist.length > 0; else noWatchlist">
+        <div *ngFor="let item of watchlist" class="watchlist-item" (click)="viewStockDetails(item.symbol)">
+            <div class="close-button">
+                <button class="remove-button" (click)="removeFromWatchlist(item.symbol); $event.stopPropagation();">
+                    &times;
+                </button>
+            </div>
+            <div class="watchlist-details">
+                <div class="watchlist-symbol-name">
+                <span class="watchlist-symbol">{{ item.symbol }}</span><br>
+                <span class="watchlist-name">{{ item.name }}</span>
+                </div>
+                
+            </div>
+            <div class="watchlist-pricing">
+                <p class="watchlist-price" [ngClass]="{'positive': item.change > 0, 'negative': item.change < 0}">
+                {{ item.currentPrice | number:'1.2-2'}}
+                </p><br>
+                <div class="watchlist-change" [ngClass]="{'positive': item.change > 0, 'negative': item.change < 0}">
+                <span *ngIf="item.change > 0" class="arrow-up">&#9650;</span>
+                <span *ngIf="item.change < 0" class="arrow-down">&#9660;</span>
+                {{ item.change | number:'1.2-2' }} ({{ item.changePercent | number:'1.2-2' }}%)
+                </div>
+            </div>
+        
+        </div>
+    </div>
+    
+  </div>
+  
+  
+  

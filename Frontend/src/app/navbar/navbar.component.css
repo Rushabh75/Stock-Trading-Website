@@ -1,0 +1,58 @@
+.bg-primary {
+  background-color: rgba(35, 36, 170, 255) !important;
+}
+.navbar-nav .nav-item {
+  list-style-type: none;
+  width: 100%; 
+}
+.collapse{
+  justify-content: right;
+}
+
+.navbar-nav .nav-link {
+  color: rgba(122,135,220,255); 
+  padding: 0.25rem 0.5rem;
+  margin: 5px 0; 
+  border: 2px solid transparent; 
+  font-size: 13px;
+  border-radius: 20px; 
+  background: transparent; 
+}
+
+.navbar-nav .nav-link:not(.active) {
+  background-color: transparent;
+  color: #FFFFFF; 
+}
+
+.navbar-nav .nav-link.active-link,
+.navbar-nav .nav-link:focus {
+  color: #000; 
+  background-color: transparent; 
+  border: 1.5px solid #e9ecef; 
+}
+
+.navbar-nav .active-link {
+  border: 1.5px solid transparent;
+  color: #000; 
+  background-color: transparent; 
+}
+
+
+
+.navbar-nav .nav-item .nav-link {
+  background: transparent; 
+  color: white; 
+  border-radius: 15px; 
+  padding: 5px 15px; 
+  margin: 5px 0; 
+}
+
+.navbar-nav .nav-item {
+  width: 100%;
+}
+
+.navbar-nav .nav-link:not(.active) {
+  background-color: transparent;
+  color: #FFF; 
+}
+

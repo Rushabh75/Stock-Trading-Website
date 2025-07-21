@@ -1,0 +1,27 @@
+# runtime: nodejs20
+
+# handlers:
+# - url: /
+#   static_files: dist/frontend/index.html
+#   upload: dist/frontend/index.html
+
+# - url: /(.*)
+#   static_files: dist/frontend/\1
+#   upload: dist/frontend/(.*)
+
+runtime: nodejs18
+env: standard
+
+automatic_scaling:
+  min_idle_instances: 1
+
+handlers:
+  # Serve all static files with url ending with a file extension
+- url: /(.*\.(gif|png|jpg|css|js|ico|json|txt))
+  static_files: dist/frontend/browser/\1
+  upload: dist/frontend/browser/(.*\.(gif|png|jpg|css|js|ico|json|txt))
+
+  # Serve the Angular app files
+- url: /(.*)
+  static_files: dist/frontend/browser/index.html
+  upload: dist/frontend/browser/index.html

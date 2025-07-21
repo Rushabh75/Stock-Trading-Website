@@ -1,0 +1,146 @@
+.portfolio-container {
+    width: 70%;
+    margin: 0 auto;
+  }
+  
+  .wallet-info {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+  .card-header:first-child {
+    border-radius: var(--bs-card-inner-border-radius) var(--bs-card-inner-border-radius) 0 0;
+    background: rgba(247, 247, 247, 255);
+    border: 1px solid lightgrey;
+}
+.card-content{
+    display: flex;
+    border: 1px solid lightgray;
+}
+  .card-footer{
+    border-radius: var(--bs-card-inner-border-radius) var(--bs-card-inner-border-radius) 0 0;
+    background: rgba(247, 247, 247, 255);
+    border: 1px solid lightgrey;
+  }
+  .stock-card {
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    /* padding: 10px; */
+  }
+  
+  .stock-card:hover {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+  
+  .stock-details h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.5em;
+  }
+  
+  .stock-info {
+    display: block;
+    justify-content: space-between;
+    margin-top: 10px;
+    width: 25%;
+  }
+  .stock-info-values {
+    display: block;
+    justify-content: space-between;
+    margin-top: 10px;
+    width: 25%;
+  }
+  
+  .stock-info p {
+    margin: 5px 0;
+  }
+  .stock-info-values p {
+    margin: 5px 0;
+  }
+  .stock-pricing {
+    display: block;
+    justify-content: space-between;
+    margin-top: 10px;
+    width: 25%;
+  }
+  
+  .stock-pricing p {
+    margin: 5px 0;
+  }
+  
+  .stock-actions {
+    margin: 1%;
+  }
+  
+  .stock-actions button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .stock-actions button:hover {
+    background-color: #0056b3;
+  }
+  .sell-button{
+    background-color: red !important;
+  }
+  .sell-button:hover{
+    background-color: rgb(121, 0, 0) !important;
+  }
+  .positive p {
+    color: green;
+    margin: 0 !important;
+  }
+  
+  .negative p{
+    color: red;
+    margin: 0 !important;
+  }
+  p{
+    margin: 0 !important;
+  }
+  .d-flex h6{
+    margin-top: auto;
+    color: darkgray;
+  }
+  #buying p{
+    margin-bottom: 2% !important;
+  }
+  .modal-footer{
+    justify-content: left;
+  }
+  .modal-footer p{
+    width: 80%;
+  }
+  .close {
+    position: absolute;
+    right: 15px;
+    /* top: 15px; */
+    font-size: 1.4rem;
+    outline: none;
+    border: none;
+    text-decoration: underline;
+    color: dodgerblue;
+    background-color: transparent;
+    padding-top: 3%;
+}
+.alert-warning {
+  background-color: #fff3cd;
+  border-color: #ffe083;
+  color: black;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  text-align: center;
+  width: 70%; /* or any other width */
+  margin-left: auto;
+  margin-right: auto;
+}
+
